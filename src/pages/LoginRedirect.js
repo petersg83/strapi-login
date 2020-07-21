@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import constants from '../constants';
+import config from '../config';
 
-const LoginSuccess = (props) => {
+const LoginRedirect = (props) => {
   const [text, setText] = useState('Loading...');
 
   useEffect(() => {
     // Successfully logged with the provider
     // Now logging with strapi by using the access_token in props.location.search
-    fetch(`${constants.BACKEND_URL}/auth/${props.match.params.providerName}/callback${props.location.search}`)
-      .then(res => res.json())
+    fetch(`${config.BACKEND_URL}/auth/${props.match.params.providerName}/callback${props.location.search}`)
       .then(res => {
         if (res.status !== 200) {
           throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
         }
+        return res;
+      })
+      .then(res => res.json())
+      .then(res => {
         // Successfully logged with Strapi
         // Now saving the jwt to use it for future authenticated requests to Strapi
         localStorage.setItem('jwt', res.jwt);
@@ -29,4 +32,4 @@ const LoginSuccess = (props) => {
   return <p>{text}</p>
 };
 
-export default LoginSuccess;
+export default LoginRedirect;

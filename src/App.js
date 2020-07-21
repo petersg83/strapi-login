@@ -5,13 +5,18 @@ import {
   Route,
 } from "react-router-dom";
 import Home from './pages/Home';
-import LoginSuccess from './pages/LoginSuccess';
+import LoginRedirect from './pages/LoginRedirect';
+import config from './config';
 
 const App = () => {
+  if (!config.BACKEND_URL) {
+    return <p>Please configure your backend url in ./src/config.js</p>;
+  }
+
   return (
     <Router>
         <Switch>
-          <Route path="/connect/:providerName/success" component={LoginSuccess} />
+          <Route path="/connect/:providerName/redirect" component={LoginRedirect} />
           <Route path="/" component={Home} />
         </Switch>
     </Router>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import constants from '../constants';
+import config from '../config';
 
 const providersNames = [
   'github',
@@ -12,7 +12,7 @@ const providersNames = [
   'vk',
 ];
 
-const LoginButton = (props) => <a href={`${constants.BACKEND_URL}/connect/${props.providerName}`}>
+const LoginButton = (props) => <a href={`${config.BACKEND_URL}/connect/${props.providerName}`}>
     <button style={{ width: '150px' }}>Connect to {props.providerName}</button>
   </a>;
 
@@ -25,7 +25,7 @@ const Home = (props) => {
     e.preventDefault();
     localStorage.removeItem('jwt');
     localStorage.removeItem('username');
-    setIsLogged(false)
+    setIsLogged(false);
   };
 
   let buttons;
@@ -33,7 +33,7 @@ const Home = (props) => {
     buttons = <LogoutButton onClick={logout} />;
   } else {
     buttons = <ul style={{ listStyleType: 'none' }}>
-      {providersNames.map((providerName, i) => <li key={`login-button-${i}`} >
+      {providersNames.map((providerName, i) => <li key={`login-button-${i}`}>
         <LoginButton providerName={providerName}/>
         </li>)}
     </ul>;
