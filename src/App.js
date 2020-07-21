@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Router>
         <Switch>
-          <Route path="/connect/github/success" component={LoginSuccess} />
+          <Route path="/connect/:providerName/success" component={LoginSuccess} />
           <Route path="/" component={Home} />
         </Switch>
     </Router>

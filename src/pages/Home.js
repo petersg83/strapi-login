@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import constants from '../constants';
 
-const LoginButton = () => <a href={`${constants.BACKEND_URL}/connect/github`}>
-    <button>Connect to github</button>
+const providersNames = [
+  'github',
+  'facebook',
+  'google',
+  'twitter',
+  'discord',
+  'twitch',
+  'instagram',
+  'vk',
+];
+
+const LoginButton = (props) => <a href={`${constants.BACKEND_URL}/connect/${props.providerName}`}>
+    <button style={{ width: '150px' }}>Connect to {props.providerName}</button>
   </a>;
 
 const LogoutButton = (props) => <button onClick={props.onClick}>Logout</button>;
@@ -17,19 +28,27 @@ const Home = (props) => {
     setIsLogged(false)
   };
 
-  let button = <LoginButton />
+  let buttons;
   if (isLogged) {
-    button = <LogoutButton onClick={logout} />;
+    buttons = <LogoutButton onClick={logout} />;
+  } else {
+    buttons = <ul style={{ listStyleType: 'none' }}>
+      {providersNames.map((providerName, i) => <li key={`login-button-${i}`} >
+        <LoginButton providerName={providerName}/>
+        </li>)}
+    </ul>;
   }
 
-  let text = 'You are not connected. Please log in.';
+  let text;
   if (isLogged) {
     text = `Welcome ${localStorage.getItem('username')}, you are connected!`;
+  } else {
+    text = 'You are not connected. Please log in.';
   }
 
   return <div>
     <p>{text}</p>
-    {button}
+    {buttons}
   </div>;
 }
 
